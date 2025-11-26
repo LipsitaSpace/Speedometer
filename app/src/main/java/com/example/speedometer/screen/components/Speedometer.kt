@@ -36,7 +36,7 @@ fun Speedometer(speed: Int, unit: String, mode: Boolean) {
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text("$speed", fontSize = 48.sp, color = if(mode) LightWhite else DarkBlack, fontWeight = FontWeight.Bold)
-            Text(unit, fontSize = 16.sp, color = if(mode) LightBlue else DarkBlue)
+            Text(unit, fontSize = 26.sp, color = if(mode) LightBlue else DarkBlue)
         }
     }
 }

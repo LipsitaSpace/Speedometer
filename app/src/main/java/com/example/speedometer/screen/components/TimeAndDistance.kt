@@ -1,5 +1,7 @@
 package com.example.speedometer.screen.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -16,8 +18,7 @@ import java.time.format.DateTimeFormatter
 
 @Preview
 @Composable
-fun SpeedometerScreen(
-    currentSpeed: Int = 0,
+fun TimeAndDistance(
     avgSpeed: Int = 0,
     distance: Int = 0
 ) {
@@ -38,9 +39,8 @@ fun SpeedometerScreen(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF0A0D12))
-            .padding(16.dp),
+            .padding(16.dp)
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -49,7 +49,7 @@ fun SpeedometerScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp),
+                .padding(start = 16.dp, end = 16.dp, top = 0.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Top
         ) {

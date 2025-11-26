@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,10 +46,10 @@ fun TripDataScreen(modeChange: Boolean) {
             modifier = Modifier
                 .align(Alignment.CenterVertically)
                 .padding(15.dp, 0.dp, 0.dp, 0.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
+            verticalArrangement = Arrangement.spacedBy(1.dp)
         ) {
             SimpleInfo("Start Location", "Bangalore", modeChange)
-            SimpleInfo("Start Time", "12:30 PM", modeChange)
+            SimpleInfo("Start Time", " 12:30PM", modeChange)
         }
 
         Column(
@@ -65,7 +64,7 @@ fun TripDataScreen(modeChange: Boolean) {
         Column(
             modifier = Modifier
                 .align(Alignment.CenterVertically),
-            verticalArrangement = Arrangement.spacedBy(6.dp),
+            verticalArrangement = Arrangement.spacedBy(1.dp),
             horizontalAlignment = Alignment.End
         ) {
             SimpleInfo("Destination", "Chennai", modeChange)
@@ -83,19 +82,17 @@ fun SimpleInfo(name: String, value: String, changeMode: Boolean) {
         Text(
             text = name,
             color = if (changeMode) LightWhite else DarkBlack,
-            fontFamily = FontFamily.Serif,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Medium
         )
         Box(
             modifier = Modifier
                 .border(1.dp, Color.Gray, RectangleShape)
-                .padding(8.dp)
+                .padding(2.dp)
         ) {
             Text(
                 text = value,
                 color = if (changeMode) LightBlue else DarkBlue,
-                fontFamily = FontFamily.Serif,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Medium
             )
         }
 
