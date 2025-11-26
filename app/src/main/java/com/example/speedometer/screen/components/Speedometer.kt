@@ -8,21 +8,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.speedometer.ui.theme.DarkBlack
+import com.example.speedometer.ui.theme.DarkBlue
+import com.example.speedometer.ui.theme.GlowingBlue
+import com.example.speedometer.ui.theme.LightBlue
+import com.example.speedometer.ui.theme.LightWhite
 
 @Composable
-fun Speedometer(speed: Int, unit: String) {
+fun Speedometer(speed: Int, unit: String, mode: Boolean) {
     Box(contentAlignment = Alignment.Center) {
         Canvas(modifier = Modifier.size(200.dp)) {
             val sweepAngle = (speed / 240f) * 270f
             drawArc(
-                color = Color(0xFF7DF9FF),
+                color = if(mode) GlowingBlue else DarkBlue,
                 startAngle = 135f,
                 sweepAngle = sweepAngle,
                 useCenter = false,
@@ -31,8 +35,8 @@ fun Speedometer(speed: Int, unit: String) {
         }
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("$speed", fontSize = 48.sp, color = Color.White, fontWeight = FontWeight.Bold)
-            Text(unit, fontSize = 16.sp, color = Color(0xFF66C1D6))
+            Text("$speed", fontSize = 48.sp, color = if(mode) LightWhite else DarkBlack, fontWeight = FontWeight.Bold)
+            Text(unit, fontSize = 16.sp, color = if(mode) LightBlue else DarkBlue)
         }
     }
 }
@@ -40,5 +44,5 @@ fun Speedometer(speed: Int, unit: String) {
 @Preview
 @Composable
 fun SpeedometerPreview() {
-    Speedometer(10,"km/h")
+    Speedometer(10,"km/h", true)
 }

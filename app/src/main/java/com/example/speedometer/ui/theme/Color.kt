@@ -13,3 +13,4 @@ val LightBlue = Color(0xFF66C1D6)
 val LightWhite = Color.White
 val DarkBlue = Color(0xFF0047AB)
 val DarkBlack = Color.Black
+val GlowingBlue = Color(0xFF7DF9FF)
