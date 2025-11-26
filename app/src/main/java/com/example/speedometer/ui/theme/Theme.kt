@@ -17,6 +17,16 @@ private val DarkColorScheme = darkColorScheme(
     tertiary = Pink80
 )
 
+private val LightColorPalette = lightColorScheme(
+    primary = LightWhite,
+    secondary = LightBlue
+)
+
+private val DarkColorPalette = darkColorScheme(
+    primary = DarkBlack,
+    secondary = DarkBlue
+)
+
 private val LightColorScheme = lightColorScheme(
     primary = Purple40,
     secondary = PurpleGrey40,
@@ -46,8 +56,8 @@ fun SpeedometerTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> DarkColorPalette
+        else -> LightColorPalette
     }
 
     MaterialTheme(
