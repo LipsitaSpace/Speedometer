@@ -1,35 +1,19 @@
 package com.example.speedometer.screen.components
 
-import android.R
-import android.R.attr.text
-import android.annotation.SuppressLint
-import android.text.Layout
-import android.widget.Button
-import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,16 +24,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.FontWeight.Companion.Bold
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
-import java.nio.file.WatchEvent
+import com.example.speedometer.ui.theme.DarkBlack
+import com.example.speedometer.ui.theme.DarkBlue
+import com.example.speedometer.ui.theme.LightBlue
+import com.example.speedometer.ui.theme.LightWhite
 
 @Preview
 @Composable
@@ -106,12 +87,12 @@ fun TripDataScreen(){
 @Composable
 fun SimpleInfo(name : String, value : String, colorName : Color){
     Column {
-        Text(text = name, color = if(colorName == Color.Black)Color.Cyan else Color.Blue, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold)
+        Text(text = name, color = if(colorName == Color.Black) LightWhite else DarkBlack, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold)
         Box(
             modifier = Modifier
                 .border(1.dp, Color.Gray,RectangleShape)
                 .padding(8.dp)){
-                    Text(text = value, color = if(colorName == Color.Black)Color.Magenta else Color.Blue, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold)
+                    Text(text = value, color = if(colorName == Color.Black) LightBlue else DarkBlue, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold)
                 }
     }
 }
