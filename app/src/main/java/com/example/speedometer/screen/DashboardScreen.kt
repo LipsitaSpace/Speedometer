@@ -2,25 +2,40 @@ package com.example.speedometer.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.speedometer.DashboardViewModel
 import com.example.speedometer.screen.components.Speedometer
 import com.example.speedometer.screen.components.TimeAndDistance
 import com.example.speedometer.screen.components.TripDataScreen
 
-@Preview
 @Composable
-fun DashboardScreen() {
+fun DashboardScreen(viewModel: DashboardViewModel = viewModel()) {
+    val bundle by viewModel.data.collectAsState()
+    LaunchedEffect(Unit) {
+        viewModel.bindService()
+    }
+    DisposableEffect(Unit) {
+        onDispose {
+            viewModel.unbindService()
+        }
+    }
+
+    val speed = bundle?.getInt("speed", 0) ?: 0
+    val unit = bundle?.getString("unit", "km/h") ?:"km/h"
+    val mode = bundle?.getString("mode") == "day"
+
     Column(
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TimeAndDistance()
-        Speedometer(100, "km/h", true)
-        TripDataScreen(true)
+        Speedometer(speed, unit, mode)
+        TripDataScreen(mode)
     }
 }
