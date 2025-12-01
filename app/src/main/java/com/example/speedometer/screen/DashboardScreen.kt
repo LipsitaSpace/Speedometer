@@ -16,13 +16,14 @@ import com.example.speedometer.screen.components.TripDataScreen
 
 @Composable
 fun DashboardScreen(viewModel: DashboardViewModel = viewModel()) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     val bundle by viewModel.data.collectAsState()
     LaunchedEffect(Unit) {
-        viewModel.bindService()
+        viewModel.bindService(context)
     }
     DisposableEffect(Unit) {
         onDispose {
-            viewModel.unbindService()
+            viewModel.unbindService(context)
         }
     }
 

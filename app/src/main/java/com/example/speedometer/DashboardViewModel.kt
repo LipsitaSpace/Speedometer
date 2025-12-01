@@ -1,13 +1,12 @@
 package com.example.speedometer
 
-import android.app.Application
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.simulatorservice.ISimulatorInterface
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class DashboardViewModel(app: Application) : AndroidViewModel(app) {
+class DashboardViewModel : ViewModel() {
     private var iService : ISimulatorInterface? = null
 
     private val _data = MutableStateFlow<Bundle?>(null)
@@ -35,15 +34,15 @@ class DashboardViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun bindService() {
+    fun bindService(context: Context) {
         val intent = Intent("com.example.simulatorservice.SimulatorService").apply {
             `package` = "com.example.simulatorservice"
         }
-        getApplication<Application>().bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
     }
 
-    fun unbindService() {
-        getApplication<Application>().unbindService(connection)
+    fun unbindService(context: Context) {
+        context.unbindService(connection)
     }
     fun fetchData() {
         iService?.let { service ->
