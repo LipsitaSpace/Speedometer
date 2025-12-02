@@ -21,7 +21,7 @@ import com.example.speedometer.ui.theme.LightBlue
 import com.example.speedometer.ui.theme.LightWhite
 
 @Composable
-fun Speedometer(speed: Int, unit: String, mode: Boolean) {
+fun Speedometer(speed: Float, unit: String, mode: Boolean) {
     Box(contentAlignment = Alignment.Center) {
         Canvas(modifier = Modifier.size(200.dp)) {
             val sweepAngle = (speed / 240f) * 270f
@@ -44,5 +44,5 @@ fun Speedometer(speed: Int, unit: String, mode: Boolean) {
 @Preview
 @Composable
 fun SpeedometerPreview() {
-    Speedometer(10,"km/h", true)
+    Speedometer(10f,"km/h", true)
 }

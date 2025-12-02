@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.simulatorservice.ISimulatorInterface
@@ -19,22 +20,26 @@ class DashboardViewModel : ViewModel() {
 
     private val _data = MutableStateFlow<Bundle?>(null)
     val data: StateFlow<Bundle?> = _data
+    val TAG = "Lipsita DashboardViewModel"
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(
             name: ComponentName?,
             service: IBinder?
         ) {
+            Log.d(TAG, "onServiceConnected")
             iService = ISimulatorInterface.Stub.asInterface(service)
             fetchData()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
+            Log.d(TAG, "onServiceDisconnected")
             iService = null
         }
     }
 
     fun bindService(context: Context) {
+        Log.d(TAG, "bindService")
         val intent = Intent("com.example.simulatorservice.SimulatorService").apply {
             `package` = "com.example.simulatorservice"
         }
@@ -42,6 +47,7 @@ class DashboardViewModel : ViewModel() {
     }
 
     fun unbindService(context: Context) {
+        Log.d(TAG, "unbindService")
         context.unbindService(connection)
     }
     fun fetchData() {

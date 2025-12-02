@@ -1,5 +1,6 @@
 package com.example.speedometer.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -16,20 +17,25 @@ import com.example.speedometer.screen.components.TripDataScreen
 
 @Composable
 fun DashboardScreen(viewModel: DashboardViewModel = viewModel()) {
+    val TAG = "Lipsita DashboardScreen"
     val context = androidx.compose.ui.platform.LocalContext.current
     val bundle by viewModel.data.collectAsState()
     LaunchedEffect(Unit) {
+        Log.d(TAG, "LaunchedEffect")
         viewModel.bindService(context)
     }
     DisposableEffect(Unit) {
         onDispose {
+            Log.d(TAG, "onDispose")
             viewModel.unbindService(context)
         }
     }
 
-    val speed = bundle?.getInt("speed", 0) ?: 0
+    val speed = bundle?.getFloat("speed", 0f) ?: 0f
     val unit = bundle?.getString("unit", "km/h") ?:"km/h"
     val mode = bundle?.getString("mode") == "day"
+
+    Log.d(TAG, "$speed + $unit + $mode")
 
     Column(
         verticalArrangement = Arrangement.SpaceEvenly,

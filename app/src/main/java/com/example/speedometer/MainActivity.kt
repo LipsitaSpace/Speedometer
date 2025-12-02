@@ -28,6 +28,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            Log.d("Lipsita MainActivity", "setContent")
             DashboardScreen()
         }
     }
