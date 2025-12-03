@@ -15,11 +15,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+data class SimulatorData(
+    val speed: Float = 0f,
+    val distance: Float = 0f,
+    val systemTime: Long = 0L,
+    val ignitionState: Boolean = false,
+    val isDayMode: Boolean = false,
+    val unit: String = "km/h"
+)
 class DashboardViewModel : ViewModel() {
     private var iService : ISimulatorInterface? = null
-
-    private val _data = MutableStateFlow<Bundle?>(null)
-    val data: StateFlow<Bundle?> = _data
+    private val _data = MutableStateFlow(SimulatorData())
+    val data: StateFlow<SimulatorData> = _data
     val TAG = "Lipsita DashboardViewModel"
 
     private val connection = object : ServiceConnection {
@@ -37,11 +44,13 @@ class DashboardViewModel : ViewModel() {
             iService = null
         }
     }
-
     fun bindService(context: Context) {
         Log.d(TAG, "bindService")
-        val intent = Intent("com.example.simulatorservice.SimulatorService").apply {
-            `package` = "com.example.simulatorservice"
+        val intent = Intent().apply {
+            component = ComponentName(
+                "com.example.simulatorservice",
+                "com.example.simulatorservice.SimulatorService"
+            )
         }
         context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
     }
@@ -50,12 +59,20 @@ class DashboardViewModel : ViewModel() {
         Log.d(TAG, "unbindService")
         context.unbindService(connection)
     }
+
     fun fetchData() {
         iService?.let { service ->
             viewModelScope.launch(Dispatchers.IO) {
-                val bundle = Bundle()
-                service.getData(bundle)
-                _data.value = bundle
+                val newData = SimulatorData(
+                    speed = service.getSpeed(),
+                    distance = service.getDistance(),
+                    systemTime = service.getSystemTime(),
+                    ignitionState = service.isIgnitionOn(),
+                    isDayMode = service.isDayMode(),
+                    unit = service.getUnit()
+                )
+                _data.value = newData
+                Log.d(TAG, "Fetched data: ${newData.speed}, ${newData.unit}")
             }
         }
     }

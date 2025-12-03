@@ -19,11 +19,14 @@ import com.example.speedometer.screen.components.TripDataScreen
 fun DashboardScreen(viewModel: DashboardViewModel = viewModel()) {
     val TAG = "Lipsita DashboardScreen"
     val context = androidx.compose.ui.platform.LocalContext.current
-    val bundle by viewModel.data.collectAsState()
+
+    val data by viewModel.data.collectAsState()
+
     LaunchedEffect(Unit) {
         Log.d(TAG, "LaunchedEffect")
         viewModel.bindService(context)
     }
+
     DisposableEffect(Unit) {
         onDispose {
             Log.d(TAG, "onDispose")
@@ -31,9 +34,9 @@ fun DashboardScreen(viewModel: DashboardViewModel = viewModel()) {
         }
     }
 
-    val speed = bundle?.getFloat("speed", 0f) ?: 0f
-    val unit = bundle?.getString("unit", "km/h") ?:"km/h"
-    val mode = bundle?.getString("mode") == "day"
+    val speed = data.speed
+    val unit = data.unit
+    val mode = data.isDayMode
 
     Log.d(TAG, "$speed + $unit + $mode")
 
