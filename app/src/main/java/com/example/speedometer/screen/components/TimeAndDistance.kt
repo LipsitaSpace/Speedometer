@@ -1,7 +1,5 @@
 package com.example.speedometer.screen.components
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -16,21 +14,21 @@ import androidx.compose.ui.unit.sp
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-@Preview
+
 @Composable
 fun TimeAndDistance(
-    avgSpeed: Int = 0,
-    distance: Int = 0
+    distance: Float, time: String
 ) {
-    val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-    var currentTime by remember { mutableStateOf("00:00:00") }
+    val avgSpeed: Int = 0
+    //val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+   // var currentTime by remember { mutableStateOf("00:00:00") }
 
-    LaunchedEffect(Unit) {
-        while (true) {
-            kotlinx.coroutines.delay(1000)
-            currentTime = LocalTime.now().format(timeFormatter)
-        }
-    }
+//    LaunchedEffect(Unit) {
+//        while (true) {
+//            kotlinx.coroutines.delay(1000)
+//            currentTime = LocalTime.now().format(timeFormatter)
+//        }
+//    }
 
     // Modern Digital Cluster Colors
     val mainText = Color(0xFFEFEFEF)
@@ -57,7 +55,7 @@ fun TimeAndDistance(
             Column(modifier = Modifier.padding(top = 50.dp)) {
                 Text("DISTANCE", color = subText, fontSize = 12.sp)
                 Text(
-                    text = String.format("%02d", distance),
+                    text = String.format("%02f", distance),
                     color = accent,
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold
@@ -67,8 +65,8 @@ fun TimeAndDistance(
             // CENTER — Time
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = currentTime,
-                    color = mainText,
+                    text = time,
+                    color = Color.Black,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(top = 4.dp)

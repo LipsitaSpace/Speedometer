@@ -31,7 +31,10 @@ fun DashboardScreen(viewModel: DashboardViewModel = viewModel()) {
         }
     }
 
-    val speed = bundle?.getFloat("speed", 0f) ?: 0f
+    //val speed = bundle?.getFloat("speed", 0f) ?: 0f
+    val speed: Float by viewModel.speed.collectAsState()
+    val mydistance : Float by viewModel.distance.collectAsState()
+    val myTime : String by viewModel.time.collectAsState()
     val unit = bundle?.getString("unit", "km/h") ?:"km/h"
     val mode = bundle?.getString("mode") == "day"
 
@@ -41,7 +44,7 @@ fun DashboardScreen(viewModel: DashboardViewModel = viewModel()) {
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TimeAndDistance()
+        TimeAndDistance(mydistance,myTime)
         Speedometer(speed, unit, mode)
         TripDataScreen(mode)
     }
