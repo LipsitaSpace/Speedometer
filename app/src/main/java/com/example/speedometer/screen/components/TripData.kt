@@ -1,6 +1,9 @@
 package com.example.speedometer.screen.components
 
 
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -26,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,8 +40,10 @@ import com.example.speedometer.ui.theme.LightWhite
 
 @Composable
 fun TripDataScreen(modeChange: Boolean) {
-    var startLoc by remember { mutableStateOf("Bangalore") }
-    var endLoc by remember { mutableStateOf("Chennai") }
+    var startLoc by remember { mutableStateOf("start location") }
+    var endLoc by remember { mutableStateOf("destinatoin") }
+    var startTime by remember { mutableStateOf("00:00")}
+    var endTime by remember { mutableStateOf("00:00") }
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -52,8 +56,8 @@ fun TripDataScreen(modeChange: Boolean) {
                 .padding(15.dp, 0.dp, 0.dp, 0.dp),
             verticalArrangement = Arrangement.spacedBy(1.dp)
         ) {
-            SimpleInfo("Start Location", "Bangalore", modeChange)
-            SimpleInfo("Start Time", " 12:30PM", modeChange)
+            SimpleInfo("Start Location", startLoc, modeChange)
+            SimpleInfo("Start Time", startTime, modeChange)
         }
 
         Column(
@@ -62,7 +66,22 @@ fun TripDataScreen(modeChange: Boolean) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            myButton()
+            myButton(
+                onStart = {
+                    startLoc = "Bangalore"
+                    startTime = "12:10"
+                },
+                onStop = {
+                    endLoc = "Delhi"
+                    endTime = "21:40"
+                },
+                reset = {
+                    startLoc = "start location"
+                    startTime = "00:00"
+                    endLoc = "destination "
+                    endTime = "00:00"
+                }
+            )
         }
 
         Column(
@@ -71,17 +90,18 @@ fun TripDataScreen(modeChange: Boolean) {
             verticalArrangement = Arrangement.spacedBy(1.dp),
             horizontalAlignment = Alignment.End
         ) {
-            SimpleInfo("Destination", "Chennai", modeChange)
-            SimpleInfo("End TIme    ", "4:30 PM", modeChange)
+            SimpleInfo("Destination", endLoc, modeChange)
+           SimpleInfo("End TIme    ", endTime, modeChange)
         }
 
     }
 }
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
+@OptIn(ExperimentalFoundationApi::class)
 fun SimpleInfo(name: String, value: String, changeMode: Boolean) {
+    Log.d("prudviUI","value is $value")
     Column {
         Text(
             text = name,
@@ -105,7 +125,11 @@ fun SimpleInfo(name: String, value: String, changeMode: Boolean) {
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    fun myButton() {
+    fun myButton(
+        onStart: ()->Unit,
+        onStop:()-> Unit,
+        reset : () -> Unit
+    ) {
 
         var buttonText by remember { mutableStateOf("START") }
         var buttonColor by remember { mutableStateOf(Color.Green) }
@@ -118,16 +142,18 @@ fun SimpleInfo(name: String, value: String, changeMode: Boolean) {
                 .combinedClickable(
                     onClick = {
                         if (buttonText == "START") {
+                            onStart()
                             buttonText = "STOP"
                             buttonColor = Color.Red
                         } else {
+                            onStop()
                             buttonText = "START"
                             buttonColor = Color.Green
                         }
 
                     },
                     onLongClick = {
-                        android.os.Handler(android.os.Looper.getMainLooper()).post {
+                        Handler(Looper.getMainLooper()).post {
                             val toast = Toast(context.applicationContext)
                             val tv = TextView(context).apply {
                                 text = "TRIP DATA RESET"
@@ -140,6 +166,7 @@ fun SimpleInfo(name: String, value: String, changeMode: Boolean) {
                             toast.show()
                         }
                         buttonColor = Color.Green
+                        reset()
                     }
                 ))
         {
