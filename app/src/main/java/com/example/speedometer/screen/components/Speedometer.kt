@@ -22,6 +22,7 @@ import com.example.speedometer.ui.theme.LightWhite
 
 @Composable
 fun Speedometer(speed: Float, unit: String, mode: Boolean) {
+    val formattedSpeed = String.format("%.2f", speed)
     Box(contentAlignment = Alignment.Center) {
         Canvas(modifier = Modifier.size(200.dp)) {
             val sweepAngle = (speed / 240f) * 270f
@@ -35,7 +36,7 @@ fun Speedometer(speed: Float, unit: String, mode: Boolean) {
         }
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("$speed", fontSize = 48.sp, color = if(mode) LightWhite else DarkBlack, fontWeight = FontWeight.Bold)
+            Text(formattedSpeed, fontSize = 48.sp, color = if(mode) LightWhite else DarkBlack, fontWeight = FontWeight.Bold)
             Text(unit, fontSize = 26.sp, color = if(mode) LightBlue else DarkBlue)
         }
     }

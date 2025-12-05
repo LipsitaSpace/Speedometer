@@ -17,21 +17,11 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun TimeAndDistance(
-    distance: Float, time: String
+    distance: Float, time: String, avgSpeed: Float
 ) {
-    val avgSpeed: Int = 0
-    //val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-   // var currentTime by remember { mutableStateOf("00:00:00") }
+    val formattedDistance = String.format("%.2f", distance)
+    val formattedAvgSpeed = String.format("%.2f", avgSpeed)
 
-//    LaunchedEffect(Unit) {
-//        while (true) {
-//            kotlinx.coroutines.delay(1000)
-//            currentTime = LocalTime.now().format(timeFormatter)
-//        }
-//    }
-
-    // Modern Digital Cluster Colors
-    val mainText = Color(0xFFEFEFEF)
     val subText = Color(0xFF9EA3A8)
     val accent = Color(0xFF4DA3FF)
 
@@ -55,7 +45,7 @@ fun TimeAndDistance(
             Column(modifier = Modifier.padding(top = 50.dp)) {
                 Text("DISTANCE", color = subText, fontSize = 12.sp)
                 Text(
-                    text = String.format("%02f", distance),
+                    text = formattedDistance,
                     color = accent,
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold
@@ -83,7 +73,7 @@ fun TimeAndDistance(
             Column(modifier = Modifier.padding(top = 50.dp)) {
                 Text("AVG SPEED", color = subText, fontSize = 12.sp)
                 Text(
-                    text = String.format("%02d", avgSpeed),
+                    text = formattedAvgSpeed,
                     color = accent,
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold

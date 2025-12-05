@@ -17,9 +17,8 @@ import com.example.speedometer.screen.components.TripDataScreen
 
 @Composable
 fun DashboardScreen(viewModel: DashboardViewModel = viewModel()) {
-    val TAG = "Lipsita DashboardScreen"
+    val TAG = "DashboardScreen"
     val context = androidx.compose.ui.platform.LocalContext.current
-    val bundle by viewModel.data.collectAsState()
     LaunchedEffect(Unit) {
         Log.d(TAG, "LaunchedEffect")
         viewModel.bindService(context)
@@ -31,21 +30,26 @@ fun DashboardScreen(viewModel: DashboardViewModel = viewModel()) {
         }
     }
 
-    //val speed = bundle?.getFloat("speed", 0f) ?: 0f
-    val speed: Float by viewModel.speed.collectAsState()
-    val mydistance : Float by viewModel.distance.collectAsState()
-    val myTime : String by viewModel.time.collectAsState()
-    val unit = bundle?.getString("unit", "km/h") ?:"km/h"
-    val mode = bundle?.getString("mode") == "day"
+    val dashboardSpeed: Float by viewModel.speed.collectAsState()
+    val dashboardDistance: Float by viewModel.distance.collectAsState()
+    val dashboardTime: String by viewModel.time.collectAsState()
+    val dashboardMode: Boolean by viewModel.mode.collectAsState()
+    val dashboardUnit: String by viewModel.unit.collectAsState()
+    val dashboardTotalDistance: Float by viewModel.totalDistance.collectAsState()
+    val dashboardTotalTime: Float by viewModel.totalTime.collectAsState()
+    val avgSpeed = dashboardTotalDistance / dashboardTotalTime
 
-    Log.d(TAG, "$speed + $unit + $mode")
+    Log.d(
+        TAG,
+        "$dashboardSpeed + $dashboardDistance + $dashboardTime + $dashboardMode + $dashboardUnit + $dashboardTotalDistance + $dashboardTotalTime"
+    )
 
     Column(
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TimeAndDistance(mydistance,myTime)
-        Speedometer(speed, unit, mode)
-        TripDataScreen(mode)
+        TimeAndDistance(dashboardDistance, dashboardTime, avgSpeed)
+        Speedometer(dashboardSpeed, dashboardUnit, dashboardMode)
+        TripDataScreen(dashboardMode)
     }
 }
