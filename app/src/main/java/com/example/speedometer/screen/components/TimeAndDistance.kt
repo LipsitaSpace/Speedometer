@@ -5,35 +5,31 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
+import com.example.speedometer.ui.theme.DarkBlack
+import com.example.speedometer.ui.theme.DarkBlue
+import com.example.speedometer.ui.theme.LightBlue
+import com.example.speedometer.ui.theme.LightWhite
 
 
 @Composable
 fun TimeAndDistance(
-    distance: Float, time: String, avgSpeed: Float
+    distance: Float, time: String, avgSpeed: Float, mode: Boolean
 ) {
     val formattedDistance = String.format("%.2f", distance)
     val formattedAvgSpeed = String.format("%.2f", avgSpeed)
 
-    val subText = Color(0xFF9EA3A8)
-    val accent = Color(0xFF4DA3FF)
-
     Column(
         modifier = Modifier
-            .padding(16.dp)
             .fillMaxWidth(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        // TOP BAR
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -41,23 +37,21 @@ fun TimeAndDistance(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Top
         ) {
-            // LEFT — Distance
-            Column(modifier = Modifier.padding(top = 50.dp)) {
-                Text("DISTANCE", color = subText, fontSize = 12.sp)
+            Column(modifier = Modifier.padding(top = 25.dp)) {
+                Text("DISTANCE", color = if(mode) LightWhite else DarkBlack, fontSize = 15.sp)
                 Text(
                     text = formattedDistance,
-                    color = accent,
-                    fontSize = 26.sp,
+                    color = if(mode) LightBlue else DarkBlue,
+                    fontSize = 25.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
 
-            // CENTER — Time
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = time,
-                    color = Color.Black,
-                    fontSize = 22.sp,
+                    color = if(mode) LightBlue else DarkBlue,
+                    fontSize = 25.sp,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(top = 4.dp)
                 )
@@ -65,20 +59,25 @@ fun TimeAndDistance(
                     modifier = Modifier
                         .height(2.dp)
                         .width(80.dp)
-                        .background(accent)
+                        .background(if(mode) LightWhite else DarkBlack)
                 )
             }
 
-            // RIGHT — Avg Speed
-            Column(modifier = Modifier.padding(top = 50.dp)) {
-                Text("AVG SPEED", color = subText, fontSize = 12.sp)
+            Column(modifier = Modifier.padding(top = 25.dp)) {
+                Text("AVG SPEED", color = if(mode) LightWhite else DarkBlack, fontSize = 15.sp)
                 Text(
                     text = formattedAvgSpeed,
-                    color = accent,
-                    fontSize = 26.sp,
+                    color = if(mode) LightBlue else DarkBlue,
+                    fontSize = 25.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun TimeAndDistancePreview(){
+    TimeAndDistance(200f, "10:20:43", 40f,true)
 }

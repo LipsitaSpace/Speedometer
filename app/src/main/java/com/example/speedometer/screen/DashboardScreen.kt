@@ -53,7 +53,7 @@ fun DashboardScreen(viewModel: DashboardViewModel, dashboardMode: Boolean) {
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TimeAndDistance(dashboardDistance, dashboardTime, avgSpeed)
+        TimeAndDistance(dashboardDistance, dashboardTime, avgSpeed, dashboardMode)
         Speedometer(dashboardSpeed, dashboardUnit, dashboardMode)
         TripDataScreen(dashboardMode)
     }
