@@ -1,6 +1,7 @@
 package com.example.speedometer.screen.components
 
 
+import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -20,6 +21,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,18 +34,23 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.speedometer.DashboardViewModel
+import com.example.speedometer.screen.DashboardScreen
 import com.example.speedometer.ui.theme.DarkBlack
 import com.example.speedometer.ui.theme.DarkBlue
 import com.example.speedometer.ui.theme.LightBlue
 import com.example.speedometer.ui.theme.LightWhite
+import kotlin.String
 
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Composable
-fun TripDataScreen(modeChange: Boolean) {
+fun TripDataScreen(modeChange: Boolean, time : String) {
+    var mDashBoardVM = DashboardViewModel()
     var startLoc by remember { mutableStateOf("start location") }
     var endLoc by remember { mutableStateOf("destinatoin") }
-    var startTime by remember { mutableStateOf("00:00")}
-    var endTime by remember { mutableStateOf("00:00") }
+    var startTime: String  by remember { mutableStateOf("00:00:00")}
+    var endTime: String  by remember { mutableStateOf("00:00:00") }
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -68,18 +75,23 @@ fun TripDataScreen(modeChange: Boolean) {
         ) {
             myButton(
                 onStart = {
-                    startLoc = "Bangalore"
-                    startTime = "12:10"
+                    mDashBoardVM.pickNewTrip()
+                    startLoc = mDashBoardVM.startLocation.value
+                    Log.d("prudvi","Time is $time")
+                    startTime = time
+                    endLoc = "destination"
+                    endTime = "00:00:00"
                 },
                 onStop = {
-                    endLoc = "Delhi"
-                    endTime = "21:40"
-                },
+                    mDashBoardVM.pickNewTrip()
+                    endLoc = mDashBoardVM.destination.value
+                    endTime = time
+                         },
                 reset = {
                     startLoc = "start location"
-                    startTime = "00:00"
+                    startTime = "00:00:00"
                     endLoc = "destination "
-                    endTime = "00:00"
+                    endTime = "00:00:00"
                 }
             )
         }
@@ -177,8 +189,8 @@ fun SimpleInfo(name: String, value: String, changeMode: Boolean) {
             )
         }
     }
-@Preview
-@Composable
-fun PreviewMyScreen(){
-    TripDataScreen(true)
-}
+//@Preview
+//@Composable
+//fun PreviewMyScreen(){
+//    TripDataScreen(true)
+//}

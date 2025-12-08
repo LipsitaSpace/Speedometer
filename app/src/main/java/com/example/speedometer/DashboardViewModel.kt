@@ -18,6 +18,15 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 class DashboardViewModel : ViewModel() {
+
+    private val cities = listOf(
+        "Bangalore", "Chennai", "Hyderabad", "Mumbai", "Delhi",
+        "Pune", "Kolkata", "Ahmedabad", "Jaipur", "Lucknow"
+    )
+    private val _startLocation = MutableStateFlow("")
+    val startLocation: StateFlow<String> = _startLocation
+    private val _destination = MutableStateFlow("")
+    val destination: StateFlow<String> = _destination
     private var iService: ISimulatorInterface? = null
     private val _speed = MutableStateFlow(0f)
     val speed: StateFlow<Float> = _speed
@@ -176,5 +185,11 @@ class DashboardViewModel : ViewModel() {
                 delay(200)
             }
         }
+    }
+
+    fun pickNewTrip(){
+        val pair = cities.shuffled().take(2)
+        _startLocation.value = pair[0]
+        _destination.value = pair[1]
     }
 }
