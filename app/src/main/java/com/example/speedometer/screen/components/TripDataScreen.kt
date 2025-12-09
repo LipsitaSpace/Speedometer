@@ -1,13 +1,10 @@
 package com.example.speedometer.screen.components
 
-
-import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
@@ -21,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,10 +28,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.speedometer.DashboardViewModel
-import com.example.speedometer.screen.DashboardScreen
 import com.example.speedometer.ui.theme.DarkBlack
 import com.example.speedometer.ui.theme.DarkBlue
 import com.example.speedometer.ui.theme.LightBlue
@@ -43,12 +38,13 @@ import com.example.speedometer.ui.theme.LightWhite
 import kotlin.String
 
 
-@SuppressLint("ViewModelConstructorInComposable")
+const val TAG = "TripDataScreen"
+
 @Composable
 fun TripDataScreen(modeChange: Boolean, time : String) {
-    var mDashBoardVM = DashboardViewModel()
+    val mDashBoardVM = viewModel<DashboardViewModel>()
     var startLoc by remember { mutableStateOf("start location") }
-    var endLoc by remember { mutableStateOf("destinatoin") }
+    var endLoc by remember { mutableStateOf("destination") }
     var startTime: String  by remember { mutableStateOf("00:00:00")}
     var endTime: String  by remember { mutableStateOf("00:00:00") }
     Row(
@@ -73,11 +69,11 @@ fun TripDataScreen(modeChange: Boolean, time : String) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            myButton(
+            MyButton(
                 onStart = {
                     mDashBoardVM.pickNewTrip()
                     startLoc = mDashBoardVM.startLocation.value
-                    Log.d("prudvi","Time is $time")
+                    Log.d(TAG,"Time is $time")
                     startTime = time
                     endLoc = "destination"
                     endTime = "00:00:00"
@@ -111,9 +107,8 @@ fun TripDataScreen(modeChange: Boolean, time : String) {
 
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 fun SimpleInfo(name: String, value: String, changeMode: Boolean) {
-    Log.d("prudviUI","value is $value")
+    Log.d(TAG,"value is $value")
     Column {
         Text(
             text = name,
@@ -135,9 +130,8 @@ fun SimpleInfo(name: String, value: String, changeMode: Boolean) {
     }
 }
 
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    fun myButton(
+    fun MyButton(
         onStart: ()->Unit,
         onStop:()-> Unit,
         reset : () -> Unit
