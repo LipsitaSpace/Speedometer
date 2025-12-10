@@ -10,19 +10,17 @@ class TripDataRepo(context : Context) {
         context.applicationContext,
         TripDatabase::class.java,
         "trip_data"
-    ).fallbackToDestructiveMigration().build()
+    ).fallbackToDestructiveMigration(false).build()
 
     private val dao = db.TripDataDao()
-    private var TAG = "prudvi"
+    private var TAG = "TripDataRepo"
 
     suspend fun saveTripData(sLoc : String, sTime : String, eLoc: String , eTime : String) {
         Log.d(TAG,"saveVehicleData()")
-        val data = TripData(startLocation = sLoc, startTime = sTime, destination = eLoc, endTime = eLoc)
+        val data = TripData(startLocation = sLoc, startTime = sTime, destination = eLoc, endTime = eTime)
         dao.insertTripData(data)
         printLatestTripData()
     }
-
-    suspend fun getLatestVehicleData(): TripData? = dao.getLatestData()
 
     suspend fun printLatestTripData() {
         val data = dao.getLatestData()

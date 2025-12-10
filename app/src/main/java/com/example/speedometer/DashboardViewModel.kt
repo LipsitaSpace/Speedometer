@@ -4,7 +4,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -20,9 +19,25 @@ import kotlinx.coroutines.launch
 class DashboardViewModel : ViewModel() {
 
     private val cities = listOf(
-        "Bangalore", "Chennai", "Hyderabad", "Mumbai", "Delhi",
-        "Pune", "Kolkata", "Ahmedabad", "Jaipur", "Lucknow","Ranchi","Nagpur","Bhubaneswar","Jammu","Kashmir",
-        "Goa","Mizoram","Bhopal","Pondi"
+        "Bangalore",
+        "Chennai",
+        "Hyderabad",
+        "Mumbai",
+        "Delhi",
+        "Pune",
+        "Kolkata",
+        "Ahmedabad",
+        "Jaipur",
+        "Lucknow",
+        "Ranchi",
+        "Nagpur",
+        "Bhubaneswar",
+        "Jammu",
+        "Kashmir",
+        "Goa",
+        "Mizoram",
+        "Bhopal",
+        "Pondi"
     )
     private val _startLocation = MutableStateFlow("")
     val startLocation: StateFlow<String> = _startLocation
@@ -88,7 +103,7 @@ class DashboardViewModel : ViewModel() {
             while (isActive) {
                 val value = try {
                     iService?.getSpeed() ?: 0f
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     0f
                 }
                 _speed.value = value
@@ -103,7 +118,7 @@ class DashboardViewModel : ViewModel() {
             while (isActive) {
                 val value = try {
                     iService?.getDistance() ?: 0f
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     0f
                 }
                 _distance.value = value
@@ -118,7 +133,7 @@ class DashboardViewModel : ViewModel() {
             while (isActive) {
                 val value = try {
                     iService?.getTime() ?: ""
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     0f
                 }
                 _time.value = value as String
@@ -133,7 +148,7 @@ class DashboardViewModel : ViewModel() {
             while (isActive) {
                 val value = try {
                     iService?.getMode() ?: ""
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     0f
                 }
                 _mode.value = value as Boolean
@@ -148,7 +163,7 @@ class DashboardViewModel : ViewModel() {
             while (isActive) {
                 val value = try {
                     iService?.getUnit() ?: ""
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     0f
                 }
                 _unit.value = value as String
@@ -163,7 +178,7 @@ class DashboardViewModel : ViewModel() {
             while (isActive) {
                 val value = try {
                     iService?.getTotalDistance() ?: 0f
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     0f
                 }
                 _totalDistance.value = value
@@ -178,7 +193,7 @@ class DashboardViewModel : ViewModel() {
             while (isActive) {
                 val value = try {
                     iService?.getTotalTime() ?: 0f
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     0f
                 }
                 _totalTime.value = value
@@ -188,7 +203,7 @@ class DashboardViewModel : ViewModel() {
         }
     }
 
-    fun pickNewTrip(){
+    fun pickNewTrip() {
         val pair = cities.shuffled().take(2)
         _startLocation.value = pair[0]
         _destination.value = pair[1]
