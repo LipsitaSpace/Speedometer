@@ -2,6 +2,7 @@ package com.example.speedometer.screen.components
 
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -35,17 +36,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.speedometer.DashboardViewModel
+import com.example.speedometer.data.TripDataRepo
 import com.example.speedometer.screen.DashboardScreen
 import com.example.speedometer.ui.theme.DarkBlack
 import com.example.speedometer.ui.theme.DarkBlue
 import com.example.speedometer.ui.theme.LightBlue
 import com.example.speedometer.ui.theme.LightWhite
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.String
 
 
 @SuppressLint("ViewModelConstructorInComposable")
 @Composable
 fun TripDataScreen(modeChange: Boolean, time : String) {
+    val scope = CoroutineScope(Dispatchers.IO)
+    var context = LocalContext.current
+    var mRepo = TripDataRepo(context)
     var mDashBoardVM = DashboardViewModel()
     var startLoc by remember { mutableStateOf("start location") }
     var endLoc by remember { mutableStateOf("destinatoin") }
@@ -84,10 +92,18 @@ fun TripDataScreen(modeChange: Boolean, time : String) {
                 },
                 onStop = {
                     mDashBoardVM.pickNewTrip()
-                    endLoc = mDashBoardVM.destination.value
+                    endLoc = if(startLoc!=mDashBoardVM.destination.value)mDashBoardVM.destination.value else TODO()
                     endTime = time
                          },
                 reset = {
+                    val snapStartLoc = startLoc
+                    val snapStartTime = startTime
+                    val snapDestination = endLoc
+                    val snapEndTime = endTime
+                    scope.launch {
+                        Log.d("prudvi","start location is $startLoc")
+                        mRepo.saveTripData(snapStartLoc,snapStartTime,snapDestination,snapEndTime)
+                    }
                     startLoc = "start location"
                     startTime = "00:00:00"
                     endLoc = "destination "

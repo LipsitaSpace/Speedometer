@@ -21,7 +21,8 @@ class DashboardViewModel : ViewModel() {
 
     private val cities = listOf(
         "Bangalore", "Chennai", "Hyderabad", "Mumbai", "Delhi",
-        "Pune", "Kolkata", "Ahmedabad", "Jaipur", "Lucknow"
+        "Pune", "Kolkata", "Ahmedabad", "Jaipur", "Lucknow","Ranchi","Nagpur","Bhubaneswar","Jammu","Kashmir",
+        "Goa","Mizoram","Bhopal","Pondi"
     )
     private val _startLocation = MutableStateFlow("")
     val startLocation: StateFlow<String> = _startLocation
