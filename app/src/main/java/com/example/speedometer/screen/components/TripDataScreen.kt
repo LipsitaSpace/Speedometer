@@ -28,10 +28,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.speedometer.DashboardViewModel
+import com.example.speedometer.data.TripDataRepo
 import com.example.speedometer.ui.theme.DarkBlack
 import com.example.speedometer.ui.theme.DarkBlue
 import com.example.speedometer.ui.theme.LightBlue
 import com.example.speedometer.ui.theme.LightWhite
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.String
 
 
@@ -39,6 +43,9 @@ const val TAG = "TripDataScreen"
 
 @Composable
 fun TripDataScreen(modeChange: Boolean, time : String) {
+    val scope = CoroutineScope((Dispatchers.IO))
+    val context = LocalContext.current
+    val mTripDataRepo = TripDataRepo(context)
     val mDashBoardVM = viewModel<DashboardViewModel>()
     var startLoc by remember { mutableStateOf("start location") }
     var endLoc by remember { mutableStateOf("destination") }
@@ -77,10 +84,17 @@ fun TripDataScreen(modeChange: Boolean, time : String) {
                 },
                 onStop = {
                     mDashBoardVM.pickNewTrip()
-                    endLoc = mDashBoardVM.destination.value
+                    endLoc = if(startLoc!=mDashBoardVM.destination.value) mDashBoardVM.destination.value else TODO()
                     endTime = time
                          },
                 reset = {
+                    val snapStartLoc = startLoc
+                    val snapStartTime = startTime
+                    val snapEndLocation = endLoc
+                    val snapEndTime = endTime
+                    scope.launch {
+                        mTripDataRepo.saveTripData(snapStartLoc,snapStartTime,snapEndLocation,snapEndTime)
+                    }
                     startLoc = "start location"
                     startTime = "00:00:00"
                     endLoc = "destination "
