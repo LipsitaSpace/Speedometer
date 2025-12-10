@@ -1,6 +1,7 @@
 package com.example.speedometer.screen.components
 
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -151,6 +152,21 @@ fun SimpleInfo(name: String, value: String, changeMode: Boolean) {
         var buttonColor by remember { mutableStateOf(Color.Green) }
         val context = LocalContext.current
 
+        fun showCustomToast(message: String) {
+            val toast = Toast(context.applicationContext)
+
+            val tv = TextView(context).apply {
+                text = message
+                setTextColor(android.graphics.Color.WHITE)
+                setPadding(24, 12, 24, 12)
+                setBackgroundColor(android.graphics.Color.BLACK)
+            }
+
+            toast.view = tv
+            toast.duration = Toast.LENGTH_SHORT
+            toast.show()
+        }
+
         Box(
             modifier = Modifier
                 .size(130.dp)
@@ -170,19 +186,11 @@ fun SimpleInfo(name: String, value: String, changeMode: Boolean) {
                     },
                     onLongClick = {
                         if (buttonText == "STOP") {
-                            Toast.makeText(
-                                context,
-                                "Trip not ended",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            showCustomToast("Trip not ended")
                             return@combinedClickable
                         }
 
-                        Toast.makeText(
-                            context,
-                            "TRIP DATA RESET",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showCustomToast("TRIP DATA RESET")
 
                         reset()
                         buttonText = "START"
