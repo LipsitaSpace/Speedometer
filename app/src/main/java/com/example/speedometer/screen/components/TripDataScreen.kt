@@ -1,9 +1,6 @@
 package com.example.speedometer.screen.components
 
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import android.widget.TextView
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -136,7 +133,6 @@ fun SimpleInfo(name: String, value: String, changeMode: Boolean) {
         onStop:()-> Unit,
         reset : () -> Unit
     ) {
-
         var buttonText by remember { mutableStateOf("START") }
         var buttonColor by remember { mutableStateOf(Color.Green) }
         val context = LocalContext.current
@@ -159,20 +155,24 @@ fun SimpleInfo(name: String, value: String, changeMode: Boolean) {
 
                     },
                     onLongClick = {
-                        Handler(Looper.getMainLooper()).post {
-                            val toast = Toast(context.applicationContext)
-                            val tv = TextView(context).apply {
-                                text = "TRIP DATA RESET"
-                                setTextColor(android.graphics.Color.WHITE)
-                                setPadding(24, 12, 24, 12)
-                                setBackgroundColor(android.graphics.Color.BLACK) // solid black bg
-                            }
-                            toast.view = tv
-                            toast.duration = Toast.LENGTH_SHORT
-                            toast.show()
+                        if (buttonText == "STOP") {
+                            Toast.makeText(
+                                context,
+                                "Trip not ended",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@combinedClickable
                         }
-                        buttonColor = Color.Green
+
+                        Toast.makeText(
+                            context,
+                            "TRIP DATA RESET",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
                         reset()
+                        buttonText = "START"
+                        buttonColor = Color.Green
                     }
                 ))
         {
