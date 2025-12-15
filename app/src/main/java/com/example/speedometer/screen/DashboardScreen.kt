@@ -55,6 +55,6 @@ fun DashboardScreen(viewModel: DashboardViewModel, dashboardMode: Boolean) {
     ) {
         TimeAndDistance(dashboardDistance, dashboardTime, avgSpeed, dashboardMode)
         Speedometer(dashboardSpeed, dashboardUnit, dashboardMode)
-        TripDataScreen(dashboardMode, dashboardTime)
+        TripDataScreen(dashboardMode, dashboardTime,viewModel)
     }
 }

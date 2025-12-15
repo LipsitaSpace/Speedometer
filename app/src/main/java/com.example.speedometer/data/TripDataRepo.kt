@@ -1,18 +1,11 @@
 package com.example.speedometer.data
 
-import android.content.Context
 import android.util.Log
-import androidx.room.Room
+import javax.inject.Inject
 
-class TripDataRepo(context : Context) {
-
-    private val db = Room.databaseBuilder(
-        context.applicationContext,
-        TripDatabase::class.java,
-        "trip_data"
-    ).fallbackToDestructiveMigration(false).build()
-
-    private val dao = db.TripDataDao()
+class TripDataRepo @Inject constructor(
+    private val dao : TripDataDao
+) {
     private var TAG = "TripDataRepo"
 
     suspend fun saveTripData(sLoc : String, sTime : String, eLoc: String , eTime : String) {

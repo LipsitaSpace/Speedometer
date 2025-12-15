@@ -27,27 +27,20 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.speedometer.DashboardViewModel
-import com.example.speedometer.data.TripDataRepo
+import com.example.speedometer.data.TripData
 import com.example.speedometer.ui.theme.DarkBlack
 import com.example.speedometer.ui.theme.DarkBlue
 import com.example.speedometer.ui.theme.LightBlue
 import com.example.speedometer.ui.theme.LightWhite
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlin.String
 
 
 const val TAG = "TripDataScreen"
 
 @Composable
-fun TripDataScreen(modeChange: Boolean, time : String) {
-    val scope = CoroutineScope((Dispatchers.IO))
-    val context = LocalContext.current
-    val mTripDataRepo = TripDataRepo(context)
-    val mDashBoardVM = viewModel<DashboardViewModel>()
+fun TripDataScreen(modeChange: Boolean, time : String, viewModel: DashboardViewModel) {
     var startLoc by remember { mutableStateOf("start location") }
     var endLoc by remember { mutableStateOf("destination") }
     var startTime: String  by remember { mutableStateOf("00:00:00")}
@@ -76,26 +69,26 @@ fun TripDataScreen(modeChange: Boolean, time : String) {
         ) {
             MyButton(
                 onStart = {
-                    mDashBoardVM.pickNewTrip()
-                    startLoc = mDashBoardVM.startLocation.value
+                    viewModel.pickNewTrip()
+                    startLoc = viewModel.startLocation.value
                     Log.d(TAG,"Time is $time")
                     startTime = time
                     endLoc = "destination"
                     endTime = "00:00:00"
                 },
                 onStop = {
-                    mDashBoardVM.pickNewTrip()
-                    endLoc = if(startLoc!=mDashBoardVM.destination.value) mDashBoardVM.destination.value else TODO()
+                    viewModel.pickNewTrip()
+                    endLoc = if(startLoc!=viewModel.destination.value) viewModel.destination.value else TODO()
                     endTime = time
                          },
                 reset = {
-                    val snapStartLoc = startLoc
-                    val snapStartTime = startTime
-                    val snapEndLocation = endLoc
-                    val snapEndTime = endTime
-                    scope.launch {
-                        mTripDataRepo.saveTripData(snapStartLoc,snapStartTime,snapEndLocation,snapEndTime)
-                    }
+                    val snapshot = TripData(
+                        startLocation = startLoc,
+                        startTime = startTime,
+                        destination = endLoc,
+                        endTime = endTime
+                    )
+                    viewModel.saveTripSnapShot(snapshot)
                     startLoc = "start location"
                     startTime = "00:00:00"
                     endLoc = "destination "

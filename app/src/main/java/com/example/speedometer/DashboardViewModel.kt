@@ -9,14 +9,21 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.simulatorservice.ISimulatorInterface
+import com.example.speedometer.data.TripData
+import com.example.speedometer.data.TripDataRepo
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DashboardViewModel : ViewModel() {
+@HiltViewModel
+class DashboardViewModel @Inject constructor(
+    private val repo : TripDataRepo
+) : ViewModel(){
 
     private val cities = listOf(
         "Bangalore",
@@ -207,5 +214,11 @@ class DashboardViewModel : ViewModel() {
         val pair = cities.shuffled().take(2)
         _startLocation.value = pair[0]
         _destination.value = pair[1]
+    }
+
+    fun saveTripSnapShot(snapShot : TripData){
+        viewModelScope.launch {
+            repo.saveTripData(snapShot.startLocation, snapShot.startTime,snapShot.destination,snapShot.endTime)
+        }
     }
 }
