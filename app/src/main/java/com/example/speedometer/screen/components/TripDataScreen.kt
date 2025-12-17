@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.speedometer.DashboardViewModel
@@ -91,7 +92,7 @@ fun TripDataScreen(modeChange: Boolean, time : String, viewModel: DashboardViewM
                     viewModel.saveTripSnapShot(snapshot)
                     startLoc = "start location"
                     startTime = "00:00:00"
-                    endLoc = "destination "
+                    endLoc = "destination"
                     endTime = "00:00:00"
                 }
             )
@@ -128,7 +129,8 @@ fun SimpleInfo(name: String, value: String, changeMode: Boolean) {
             Text(
                 text = value,
                 color = if (changeMode) LightBlue else DarkBlue,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.testTag("text_box")
             )
         }
 
@@ -164,6 +166,7 @@ fun SimpleInfo(name: String, value: String, changeMode: Boolean) {
             modifier = Modifier
                 .size(130.dp)
                 .background(buttonColor, shape = CircleShape)
+                .testTag("start_text")
                 .combinedClickable(
                     onClick = {
                         if (buttonText == "START") {
