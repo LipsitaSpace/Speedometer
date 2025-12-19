@@ -108,5 +108,16 @@ class TripDataScreenComposeTest {
             .assertTextEquals("00:00:00")
     }
 
+    @Test
+    fun testButtonClick(){
+        composeRule.onNodeWithTag("start_text")
+            .assertIsDisplayed()
+        repeat(15){
+            composeRule.onNodeWithTag("start_text").performClick()
+        }
+
+        composeRule.onNodeWithTag("start_text").assertExists()
+    }
+
 
 }
