@@ -34,8 +34,6 @@ import com.example.speedometer.ui.theme.DarkBlack
 import com.example.speedometer.ui.theme.DarkBlue
 import com.example.speedometer.ui.theme.LightBlue
 import com.example.speedometer.ui.theme.LightWhite
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 
 
 const val TAG = "TripDataScreen"
