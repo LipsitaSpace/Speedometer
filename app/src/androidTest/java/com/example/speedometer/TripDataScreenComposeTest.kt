@@ -18,6 +18,7 @@ import org.junit.runner.RunWith
 class TripDataScreenComposeTest {
 
     @get:Rule
+    //val composeRule = createAndroidComposeRule<MainActivity>()
     val composeRule = createAndroidComposeRule<MainActivity>()
 
     @Test
@@ -68,27 +69,27 @@ class TripDataScreenComposeTest {
             .assertTextEquals("00:00:00")
     }
 
-//    @Test
-//    fun textIsDisplay(){
-//        composeRule.onNodeWithTag("start_text")
-//            .performClick()
-//        composeRule.onNodeWithTag("start_text")
-//            .assertTextEquals("STOP")
-//        composeRule.onAllNodesWithTag("text_box")[0]
-//            .assertIsDisplayed()
-//        composeRule.onAllNodesWithTag("text_box")[1]
-//            .assertIsDisplayed()
-//
-//        composeRule.onNodeWithTag("start_text")
-//            .performClick()
-//        composeRule.onNodeWithTag("start_text")
-//            .assertTextEquals("START")
-//        composeRule.onAllNodesWithTag("text_box")[2]
-//            .assertIsDisplayed()
-//        composeRule.onAllNodesWithTag("text_box")[3]
-//            .assertIsDisplayed()
-//
-//    }
+    @Test
+    fun textIsDisplay(){
+        composeRule.onNodeWithTag("start_text")
+            .performClick()
+        composeRule.onNodeWithTag("start_text")
+            .assertTextEquals("STOP")
+        composeRule.onAllNodesWithTag("text_box")[0]
+            .assertIsDisplayed()
+        composeRule.onAllNodesWithTag("text_box")[1]
+            .assertIsDisplayed()
+
+        composeRule.onNodeWithTag("start_text")
+            .performClick()
+        composeRule.onNodeWithTag("start_text")
+            .assertTextEquals("START")
+        composeRule.onAllNodesWithTag("text_box")[2]
+            .assertIsDisplayed()
+        composeRule.onAllNodesWithTag("text_box")[3]
+            .assertIsDisplayed()
+
+    }
     @Test
     fun testValuesAfterReset(){
         composeRule.onNodeWithTag("start_text")
@@ -118,6 +119,4 @@ class TripDataScreenComposeTest {
 
         composeRule.onNodeWithTag("start_text").assertExists()
     }
-
-
 }

@@ -71,14 +71,14 @@ fun TripDataScreen(modeChange: Boolean, time : String, viewModel: DashboardViewM
                     viewModel.pickNewTrip()
                     startLoc = viewModel.startLocation.value
                     Log.d(TAG,"Time is $time")
-                    startTime = time
+                    startTime = if(!(time.isEmpty())) time else "00:00:00"
                     endLoc = "destination"
                     endTime = "00:00:00"
                 },
                 onStop = {
                     viewModel.pickNewTrip()
                     endLoc = if(startLoc!=viewModel.destination.value) viewModel.destination.value else TODO()
-                    endTime = time
+                    endTime = if(!(time.isEmpty())) time else "00:00:00"
                          },
                 reset = {
                     val snapshot = TripData(
