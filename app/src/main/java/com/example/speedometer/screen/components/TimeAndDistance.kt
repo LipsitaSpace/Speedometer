@@ -6,6 +6,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,9 +39,10 @@ fun TimeAndDistance(
             verticalAlignment = Alignment.Top
         ) {
             Column(modifier = Modifier.padding(top = 25.dp)) {
-                Text("DISTANCE", color = if(mode) LightWhite else DarkBlack, fontSize = 15.sp)
+                Text("``DISTANCE``", color = if(mode) LightWhite else DarkBlack, fontSize = 15.sp)
                 Text(
                     text = formattedDistance,
+                    modifier = Modifier.testTag("distance_value"),
                     color = if(mode) LightBlue else DarkBlue,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold
@@ -53,7 +55,7 @@ fun TimeAndDistance(
                     color = if(mode) LightBlue else DarkBlue,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Medium,
-                    modifier = Modifier.padding(top = 4.dp)
+                    modifier = Modifier.padding(top = 4.dp).testTag("time_value")
                 )
                 Box(
                     modifier = Modifier
@@ -67,6 +69,7 @@ fun TimeAndDistance(
                 Text("AVG SPEED", color = if(mode) LightWhite else DarkBlack, fontSize = 15.sp)
                 Text(
                     text = formattedAvgSpeed,
+                    modifier = Modifier.testTag("avg_speed_value"),
                     color = if(mode) LightBlue else DarkBlue,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold
